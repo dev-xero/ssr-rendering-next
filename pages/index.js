@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/todos')
