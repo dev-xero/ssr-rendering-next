@@ -3,19 +3,18 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useState, useEffect } from 'react'
 
-export default function Home() {
-  const [todos, setTodos] = useState([])
+export const getServerSideProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos')
+  const data = await res.json()
 
-  useEffect(() => {
-    setTimeout(() => {
-      ;(async () => {
-        const res = await fetch('https://jsonplaceholder.typicode.com/todos')
-        const data = await res.json()
-        setTodos(data)
-      })()
-    }, 3000)
-  }, [])
+  return {
+    props: {
+      todos: data,
+    },
+  }
+}
 
+export default function Home({ todos }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -24,7 +23,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {todos.length === 0 ? (
+      {todos?.length === 0 ? (
         <div>Loading</div>
       ) : (
         todos.map(todo => (
